@@ -1,36 +1,37 @@
-# 📘 C++ Development Portfolio
+# Cpp-Projects
 
-Welcome to my software development portfolio. This repository documents my journey in mastering **Object Oriented Programming with C++**, focusing on memory management, algorithm design, and scalable system architecture.
+![C++](https://img.shields.io/badge/C%2B%2B-00599C?logo=c%2B%2B&logoColor=white)
+![OOP](https://img.shields.io/badge/OOP-Advanced-blue)
 
-Each project in this repository is a self-contained application designed to solve specific technical challenges.
+A collection of C++ projects and exercises developed during the **OOP244 (Object-Oriented Programming)** course at Seneca Polytechnic. This repository demonstrates core C++ principles, focusing on memory management, robustness, and clean system architecture.
+
+## 🎓 Course Overview (OOP244)
+
+The OOP244 curriculum covers the implementation of object-oriented designs using the C++ programming language. It emphasizes the transition from procedural to object-oriented thinking, focusing on creating reusable, maintainable, and efficient code.
+
+## 🔑 Key Concepts Demonstrated
+
+- **Classes & Objects:** Encapsulation of data and behavior.
+- **Dynamic Memory Allocation:** Efficient management of heap memory using `new` and `delete`.
+- **Inheritance & Polymorphism:** Creating hierarchical relationships and utilizing virtual functions for extensible designs.
+- **Operator Overloading:** Customizing standard operators for user-defined types.
+- **Templates:** Implementing generic programming for flexible data structures.
+- **File I/O:** Persistent data storage and retrieval using standard streams.
+
+## 📂 Featured Projects
+
+- **MarketPlus:** A dynamic inventory and shopping engine simulating e-commerce logic with dynamic arrays.
+- **CreditCard:** Financial utility for validating card numbers and managing credit limits.
+
+## ⚙️ How to Run
+
+Each project is self-contained. Navigate to a project directory and compile using a C++ compiler (e.g., g++):
+
+```bash
+cd MarketPlus
+g++ *.cpp -o marketplus
+./marketplus
+```
 
 ---
-
-## 📂 Portfolio Projects
-
-| Project Name | Description | Key Concepts | Status |
-| :--- | :--- | :--- | :--- |
-| **[MarketPlus](./MarketPlus)** | A dynamic inventory & shopping engine simulating an e-commerce backend. | Dynamic Memory, Operator Overloading, Resizing Arrays | ✅ Complete |
-| **[CreditCard](./CreditCard)** | A financial utility that validates card numbers using Luhn's Algorithm and manages credit limits. | Boolean Logic, Encapsulation, Algorithmic Validation | ✅ Complete |
-| *TransportManager* | *Logistics routing and fleet management system.* | *Polymorphism, File I/O, Inheritance* | 📅 Planned |
-
-> **Note:** Click the **Project Name** to view the source code and documentation for that specific application.
-
----
-
-## 🛠️ Technologies & Tools
-
-* **Language:** C++ (Standard C++11/17)
-* **Compiler:** g++ / clang
-* **Version Control:** Git & GitHub
-* **Development Environment:** VS Code
-
----
-
-## 🚀 How to Run a Project
-
-Each project is designed to run independently. To execute the **MarketPlus** engine, for example:
-
-1. **Navigate to the project directory:**
-   ```bash
-   cd MarketPlus
+*Developed by Xenofon Gkioka*
