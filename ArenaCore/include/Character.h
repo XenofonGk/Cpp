@@ -2,7 +2,7 @@
 #define CHARACTER_H
 #include "iCombatant.h"
 
-    namespace Arena {
+    namespace GameArena {
         class Character : public iCombatant {
             private:
                 char m_name[50]{};

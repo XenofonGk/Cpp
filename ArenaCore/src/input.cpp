@@ -1,7 +1,7 @@
 #include "Input.h"
 #include <iostream>
 
-    namespace Arena {
+    namespace GameArena {
         int readInt(int min,int max){
             int value;
             bool valid = true;

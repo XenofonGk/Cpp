@@ -2,7 +2,7 @@
 #define WARRIOR_H
 #include "Character.h"
 
-    namespace Arena {
+    namespace GameArena {
         class Warrior : public Character{
             int* m_skillLevels{};
             int m_skillCount{};

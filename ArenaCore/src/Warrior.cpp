@@ -2,7 +2,7 @@
 #include "Character.h"
 #include <iostream>
 
-    namespace Arena {
+    namespace GameArena {
         Warrior::Warrior() {
             m_skillLevels = nullptr;
             m_skillCount = 0;

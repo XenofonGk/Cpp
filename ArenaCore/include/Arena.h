@@ -1,9 +1,9 @@
-#ifndef ARENA_H
-#define ARENA_H
+#ifndef GAMEARENA_H
+#define GAMEARENA_H
 #include "Mage.h"
 #include "Warrior.h"
 
-    namespace Arena{
+    namespace GameArena{
 
         class Arena{
         Character** m_roster{};
@@ -13,11 +13,15 @@
         Arena(const Arena& src) = delete;
         Arena& operator=(const Arena& src) = delete;
         ~Arena();
-        Arena& operator+=(Character*);
+        Character* getCharacter(int index) const;
+        Arena& operator+=(Arena*);
         void load(const char* filename);
         void save(const char* filename) const;
         void display(std::ostream& os = std::cout) const;
+        
         };
+        std::ostream& operator<<(std::ostream& os, const Character& c);
+
     }
 
 #endif

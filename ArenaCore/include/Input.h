@@ -1,6 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
-    namespace Arena {
+    namespace GameArena {
+        
 int readInt(int min,int max);
 
 

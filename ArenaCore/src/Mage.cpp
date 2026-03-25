@@ -2,7 +2,7 @@
 #include "Character.h"
 #include <iostream>
 
-    namespace Arena {
+    namespace GameArena {
         Mage::Mage() {
             m_SpellPower = nullptr;
             m_SpellCount = 0;

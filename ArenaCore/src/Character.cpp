@@ -3,7 +3,7 @@
 #include <cstring>
 using namespace std;
 
-    namespace Arena {
+    namespace GameArena {
         
         Character::Character(){
             m_name[0] = '\0';

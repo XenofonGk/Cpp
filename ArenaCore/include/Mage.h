@@ -2,7 +2,7 @@
 #define WARRIOR_H
 #include "Character.h"
 
-    namespace Arena {
+    namespace GameArena {
         class Mage : public Character{
             int* m_SpellPower{};
             int m_SpellCount{};

@@ -1,7 +1,7 @@
 #ifndef ICOMBATANT_H
 #define ICOMBATANT_H
 #include <iostream>
-namespace Arena {
+namespace GameArena {
     class iCombatant{
 
         public:
