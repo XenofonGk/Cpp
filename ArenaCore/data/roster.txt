@@ -1,0 +1,5 @@
+Warrior,Aragorn,120,5,3,10,20,15
+Warrior,Gimli,150,4,2,25,30
+Mage,Gandalf,80,8,3,40,35,50
+Mage,Saruman,70,7,2,45,55
+ 
