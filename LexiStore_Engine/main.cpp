@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "KVStore.h"
 #include "Entry.h"
 #include "Utils.h"
@@ -38,19 +39,24 @@ using namespace LexiStore;
     choice = getInt(0, 3, "Select an option: ");
 
     if (choice == 1) {
-        char k[128], v[128];
+        // std::string rather than char[128]: `cin >> buffer` on a fixed array
+        // has no idea how big that array is, so a key longer than 127
+        // characters walks straight off the end of the stack frame. Reading
+        // into a string grows it instead, and the token-at-a-time behaviour is
+        // unchanged.
+        std::string k, v;
         cout << "Enter Key: ";   cin >> k;
         cout << "Enter Value: "; cin >> v;
-          
-        myStore += Entry(k, v); // Triggers your resizing logic!
+
+        myStore += Entry(k.c_str(), v.c_str()); // Triggers your resizing logic!
         cout << "Entry added successfully." << endl;
         clearBuffer();
     } 
     else if (choice == 2) {
-        char k[128];
+        std::string k;
         cout << "Enter Key to Search: "; cin >> k;
-            
-        const char* val = myStore[k]; // Triggers your search logic!
+
+        const char* val = myStore[k.c_str()]; // Triggers your search logic!
         if (val) {
         cout << ">> FOUND: Key [" << k << "] has Value [" << val << "]" << endl;
         } else {
