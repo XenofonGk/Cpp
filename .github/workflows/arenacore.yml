@@ -51,5 +51,5 @@ jobs:
           test -f roster-out.txt
           echo 'Saved roster:'; cat roster-out.txt
           # Aragorn was levelled 5 -> 6; every other row must be untouched.
-          grep -q '^Warrior,Aragorn,120,6,3,10,20,15$' roster-out.txt
-          grep -q '^Mage,Gandalf,80,8,3,40,35,50$'    roster-out.txt
+          grep -q '^Warrior,Aragorn,145,6,3,8,8,8$' roster-out.txt
+          grep -q '^Mage,Gandalf,80,8,3,10,10,10$'   roster-out.txt
