@@ -18,6 +18,7 @@
             bool isAlive() override;
             int calculateDamage() override;
             void display(std::ostream& os = std::cout) const override;
+            void save(std::ostream& os) const override;
         };
     }
 

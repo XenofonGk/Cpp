@@ -1,5 +1,5 @@
-#ifndef WARRIOR_H
-#define WARRIOR_H
+#ifndef MAGE_H
+#define MAGE_H
 #include "Character.h"
 
     namespace GameArena {
@@ -18,6 +18,7 @@
             bool isAlive() override;
             int calculateDamage() override;
             void display(std::ostream& os = std::cout) const override;
+            void save(std::ostream& os) const override;
         };
     }
 

@@ -8,6 +8,11 @@
                 char m_name[50]{};
                 int m_health{};
                 int m_level{};
+            protected:
+                // Writes the "name,health,level" portion shared by every
+                // subclass, so derived save() implementations only add their
+                // own fields.
+                void saveBase(std::ostream& os) const;
             public:
                 Character();
                 Character(int level);
@@ -19,6 +24,9 @@
                 void display(std::ostream& os) const;
                 bool isAlive() const;
                 virtual int calculateDamage() = 0;
+                // Each subclass writes the line format Arena::load() can read
+                // back, which is what makes save/load round trip.
+                virtual void save(std::ostream& os) const = 0;
                 virtual ~Character();
                 friend bool operator==(const Character&, const Character&);
             };

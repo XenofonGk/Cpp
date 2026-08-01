@@ -16,13 +16,18 @@
             } 
         }
 
-        Mage::Mage(const Mage& src){
+        Mage::Mage(const Mage& src) : Character(src){
+            // Character(src) is essential: without it the base subobject is
+            // default-constructed and the copy silently loses name, health and
+            // level, because operator= below only handles the array.
             m_SpellPower = nullptr;
+            m_SpellCount = 0;
             *this = src;
         }
 
         Mage& Mage::operator=(const Mage& src){
             if (this != &src) {
+                Character::operator=(src);
                 delete[] m_SpellPower;
                  m_SpellCount = src.m_SpellCount;
                  if (src.m_SpellPower != nullptr){
@@ -82,4 +87,16 @@
             
         }
     }
+
+        // Emits exactly what Arena::load() parses:
+        //   Mage,name,health,level,count,skill...
+        void Mage::save(std::ostream& os) const{
+            os << "Mage,";
+            saveBase(os);
+            os << "," << m_SpellCount;
+            for (int i = 0; i < m_SpellCount; i++){
+                os << "," << m_SpellPower[i];
+            }
+            os << "\n";
+        }
 }

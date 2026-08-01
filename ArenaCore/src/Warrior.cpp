@@ -16,13 +16,18 @@
             } 
         }
 
-        Warrior::Warrior(const Warrior& src){
+        Warrior::Warrior(const Warrior& src) : Character(src){
+            // Character(src) is essential: without it the base subobject is
+            // default-constructed and the copy silently loses name, health and
+            // level, because operator= below only handles the array.
             m_skillLevels = nullptr;
+            m_skillCount = 0;
             *this = src;
         }
 
         Warrior& Warrior::operator=(const Warrior& src){
             if (this != &src) {
+                Character::operator=(src);
                 delete[] m_skillLevels;
                  m_skillCount = src.m_skillCount;
                  if (src.m_skillLevels != nullptr){
@@ -82,3 +87,16 @@
             
         }
     }
+
+        // Emits exactly what Arena::load() parses:
+        //   Warrior,name,health,level,count,skill...
+        void Warrior::save(std::ostream& os) const{
+            os << "Warrior,";
+            saveBase(os);
+            os << "," << m_skillCount;
+            for (int i = 0; i < m_skillCount; i++){
+                os << "," << m_skillLevels[i];
+            }
+            os << "\n";
+        }
+}

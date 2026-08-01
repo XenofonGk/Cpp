@@ -45,6 +45,10 @@ using namespace std;
             return m_health > 0;
         }
 
+        void Character::saveBase(std::ostream& os) const{
+            os << m_name << "," << m_health << "," << m_level;
+        }
+
         Character::~Character(){}
 
         bool operator==(const Character& c, const Character& ch){

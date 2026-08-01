@@ -1,0 +1,37 @@
+name: ArenaCore
+
+on:
+  push:
+    branches: [main]
+    paths: ['ArenaCore/**', '.github/workflows/arenacore.yml']
+  pull_request:
+    branches: [main]
+    paths: ['ArenaCore/**', '.github/workflows/arenacore.yml']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Configure
+        working-directory: ArenaCore
+        run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build
+        working-directory: ArenaCore
+        run: cmake --build build
+
+      # Loads the committed roster, levels a character up and saves. Guards the
+      # load/save round trip, which is the part most likely to break silently.
+      - name: Smoke test
+        working-directory: ArenaCore/build
+        run: |
+          printf '1\n3\n0\n5\n0\n' | ./ArenaCore > out.txt
+          grep -q 'Loaded 4 characters' out.txt
+          grep -q 'Aragorn' out.txt
+          test -f roster-out.txt
+          echo 'Saved roster:'; cat roster-out.txt
+          # Aragorn was levelled 5 -> 6; every other row must be untouched.
+          grep -q '^Warrior,Aragorn,120,6,3,10,20,15$' roster-out.txt
+          grep -q '^Mage,Gandalf,80,8,3,40,35,50$'    roster-out.txt
