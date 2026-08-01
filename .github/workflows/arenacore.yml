@@ -8,6 +8,11 @@ on:
     branches: [main]
     paths: ['ArenaCore/**', '.github/workflows/arenacore.yml']
 
+# The token only ever needs to read the repository here. Left unset it inherits
+# the repository default, which can include write access this job has no use for.
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
