@@ -59,7 +59,7 @@
              temp[m_SpellCount] = skill;
              delete[] m_SpellPower;
              m_SpellPower = temp;
-             m_SpellPower++;
+             m_SpellCount++;
 
              return *this;
         }

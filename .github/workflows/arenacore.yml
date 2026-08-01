@@ -27,6 +27,19 @@ jobs:
         working-directory: ArenaCore
         run: cmake --build build
 
+      # Built with AddressSanitizer because the bug that prompted these tests
+      # was a memory error, not a wrong answer: an operator incremented the
+      # array pointer instead of the element count, so the destructor freed a
+      # pointer that was not the start of the allocation. A correctness-only
+      # check catches half of that; ASan catches the rest.
+      - name: Unit tests (AddressSanitizer)
+        working-directory: ArenaCore
+        run: |
+          g++ -std=c++17 -Wall -I include -fsanitize=address -g \
+            -o arena_tests tests/test_arena.cpp \
+            src/Character.cpp src/Warrior.cpp src/Mage.cpp src/Arena.cpp
+          ./arena_tests
+
       # Loads the committed roster, levels a character up and saves. Guards the
       # load/save round trip, which is the part most likely to break silently.
       - name: Smoke test

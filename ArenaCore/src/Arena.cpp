@@ -80,17 +80,28 @@ namespace GameArena {
             std::string name;
             std::string field;
 
-            if (!std::getline(row, type, ',')) continue;
-            if (!std::getline(row, name, ',')) continue;
+            int health = 0, level = 0, count = 0;
 
-            if (!std::getline(row, field, ',')) continue;
-            int health = std::stoi(field);
+            // stoi throws on anything non-numeric. Without this the comment
+            // above was a lie: a single malformed digit anywhere in the file
+            // propagated out of load() and took the whole roster with it.
+            try {
+                if (!std::getline(row, type, ',')) continue;
+                if (!std::getline(row, name, ',')) continue;
 
-            if (!std::getline(row, field, ',')) continue;
-            int level = std::stoi(field);
+                if (!std::getline(row, field, ',')) continue;
+                health = std::stoi(field);
 
-            if (!std::getline(row, field, ',')) continue;
-            int count = std::stoi(field);
+                if (!std::getline(row, field, ',')) continue;
+                level = std::stoi(field);
+
+                if (!std::getline(row, field, ',')) continue;
+                count = std::stoi(field);
+            } catch (const std::exception&) {
+                std::cerr << "Skipping unparseable line: " << line << "\n";
+                continue;
+            }
+
             if (count < 0) continue;
 
             int* skills = new int[count];
@@ -100,7 +111,12 @@ namespace GameArena {
                     complete = false;
                     break;
                 }
-                skills[i] = std::stoi(field);
+                try {
+                    skills[i] = std::stoi(field);
+                } catch (const std::exception&) {
+                    complete = false;
+                    break;
+                }
             }
 
             if (!complete) {

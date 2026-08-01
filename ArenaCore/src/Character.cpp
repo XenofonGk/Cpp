@@ -18,7 +18,11 @@ using namespace std;
         }
 
         Character::Character(const char* name, int health, int level){
-            strcpy(m_name,name);
+            // strncpy with an explicit terminator: the source is a roster line
+            // from a file, so its length is not ours to trust, and m_name is a
+            // fixed 50 bytes.
+            strncpy(m_name, name, sizeof(m_name) - 1);
+            m_name[sizeof(m_name) - 1] = '\0';
             m_health = health;
             m_level = level;
         }
@@ -64,7 +68,10 @@ using namespace std;
         Character::~Character(){}
 
         bool operator==(const Character& c, const Character& ch){
-            return c.m_level == ch.m_level && c.m_health == ch.m_health;
-
+            // Name is part of identity. Comparing only the stats made every
+            // pair of equally-statted characters compare equal.
+            return c.m_level == ch.m_level
+                && c.m_health == ch.m_health
+                && std::strcmp(c.m_name, ch.m_name) == 0;
         }
     }
