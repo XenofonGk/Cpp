@@ -23,6 +23,12 @@
                 Character& operator+=(int);
                 void display(std::ostream& os) const;
                 bool isAlive() const;
+                // Accessors. Without these the only way to read a character's
+                // state is to print it, which forces anything driving the model
+                // — tests, another UI, a WebAssembly build — to parse text.
+                const char* getName() const;
+                int getHealth() const;
+                int getLevel() const;
                 virtual int calculateDamage() = 0;
                 // Each subclass writes the line format Arena::load() can read
                 // back, which is what makes save/load round trip.

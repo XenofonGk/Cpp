@@ -45,6 +45,18 @@ using namespace std;
             return m_health > 0;
         }
 
+        const char* Character::getName() const{
+            return m_name;
+        }
+
+        int Character::getHealth() const{
+            return m_health;
+        }
+
+        int Character::getLevel() const{
+            return m_level;
+        }
+
         void Character::saveBase(std::ostream& os) const{
             os << m_name << "," << m_health << "," << m_level;
         }
