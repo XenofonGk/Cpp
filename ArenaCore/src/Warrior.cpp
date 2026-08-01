@@ -76,7 +76,9 @@
                 for ( int i = 0; i < m_skillCount; i++){
                     dmg += m_skillLevels[i];
                 }
-                return dmg;
+                // Level was read by nothing before this: a level 9 character
+                // hit exactly as hard as a level 1 with the same skills.
+                return dmg + getLevel();
         }
         void Warrior::display(std::ostream& os) const{
             Character::display(os);

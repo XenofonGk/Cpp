@@ -7,6 +7,7 @@
             private:
                 char m_name[50]{};
                 int m_health{};
+                int m_maxHealth{};
                 int m_level{};
             protected:
                 // Writes the "name,health,level" portion shared by every
@@ -29,6 +30,20 @@
                 const char* getName() const;
                 int getHealth() const;
                 int getLevel() const;
+                int getMaxHealth() const;
+                int defence() const override;
+
+                /* Damage varies within a band around calculateDamage() so a
+                   fight is not decided before it starts. The generator is
+                   shared and seedable — seedCombat() makes a run reproducible,
+                   which is what lets tests assert on exact numbers and lets the
+                   same seed replay identically in the browser. */
+                static void seedCombat(unsigned int seed);
+                static int rollDamage(int base);
+
+                int strike(iCombatant& target) override;
+                void takeDamage(int amount) override;
+
                 virtual int calculateDamage() = 0;
                 // Each subclass writes the line format Arena::load() can read
                 // back, which is what makes save/load round trip.

@@ -12,6 +12,7 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 using namespace GameArena;
@@ -122,6 +123,117 @@ void arenaOwnsAndFreesRoster() {
     check(true, "arena destructed without a memory error");
 }
 
+
+/* ---- combat ---------------------------------------------------------- */
+
+void levelAffectsDamage() {
+    int skills[] = {10, 10};
+    Warrior low("Low", 100, 1, skills, 2);
+    Warrior high("High", 100, 9, skills, 2);
+    check(high.calculateDamage() > low.calculateDamage(),
+          "a higher level hits harder with identical skills");
+    checkEq(high.calculateDamage() - low.calculateDamage(), 8,
+            "the damage gap equals the level gap");
+}
+
+void defenceReducesDamageTaken() {
+    int s[] = {30};
+    Warrior attacker("A", 100, 1, s, 1);
+    Warrior soft("Soft", 100, 0, s, 1);   // defence 0
+    Warrior armoured("Hard", 100, 8, s, 1); // defence 4
+
+    Character::seedCombat(1);
+    const int toSoft = attacker.strike(soft);
+    Character::seedCombat(1);
+    const int toArmoured = attacker.strike(armoured);
+
+    checkEq(toSoft - toArmoured, 4, "defence subtracts from the damage taken");
+}
+
+void damageNeverDropsBelowOne() {
+    int weak[] = {1};
+    int s[] = {1};
+    Warrior attacker("Weak", 100, 0, weak, 1);
+    Warrior tank("Tank", 100, 99, s, 1);   // defence 49, far above the damage
+    const int dealt = attacker.strike(tank);
+    check(dealt >= 1, "a hit always removes at least one health");
+}
+
+void healthClampsAtZero() {
+    int s[] = {500};
+    Warrior big("Big", 100, 1, s, 1);
+    Warrior small("Small", 10, 0, s, 1);
+    big.strike(small);
+    checkEq(small.getHealth(), 0, "health stops at zero rather than going negative");
+    check(!small.isAlive(), "a combatant at zero health is not alive");
+}
+
+void healingCannotExceedStartingHealth() {
+    int s[] = {5};
+    Warrior w("W", 100, 1, s, 1);
+    w += -40;
+    w += 999;
+    checkEq(w.getHealth(), 100, "healing is capped at starting health");
+}
+
+void deadCombatantsDoNotSwing() {
+    int s[] = {20};
+    Warrior dead("Dead", 1, 1, s, 1);
+    Warrior alive("Alive", 100, 1, s, 1);
+    dead.takeDamage(50);
+    checkEq(dead.getHealth(), 0, "the combatant is down");
+    checkEq(dead.strike(alive), 0, "a downed combatant deals no damage");
+    checkEq(alive.getHealth(), 100, "and the target is untouched");
+}
+
+/* Warrior and Mage declare operator+=(int) to append a skill, which HIDES
+   Character::operator+=(int) that adjusts health. The same expression therefore
+   means two different things depending on the static type of the left operand,
+   which is a trap worth pinning down rather than discovering later:
+   takeDamage() is the unambiguous way to change health. */
+void plusEqualsMeansSkillOnConcreteTypes() {
+    int s[] = {10};
+    Warrior w("W", 100, 1, s, 1);
+
+    const int damageBefore = w.calculateDamage();
+    w += 5;                       // Warrior::operator+= — appends a skill
+    checkEq(w.getHealth(), 100, "+= on a Warrior leaves health alone");
+    checkEq(w.calculateDamage() - damageBefore, 5, "+= on a Warrior adds a skill");
+
+    Character& asBase = w;
+    asBase += -30;                // Character::operator+= — changes health
+    checkEq(asBase.getHealth(), 70, "+= through Character& changes health");
+}
+
+void sameSeedReplaysTheSameFight() {
+    auto run = [] {
+        int s[] = {10, 10};
+        int p[] = {12, 12};
+        Warrior w("W", 120, 4, s, 2);
+        Mage m("M", 90, 6, p, 2);
+        Character::seedCombat(2026);
+        int total = 0;
+        for (int i = 0; i < 5; i++) total += w.strike(m) * 10 + m.strike(w);
+        return total;
+    };
+    checkEq(run(), run(), "the same seed produces an identical exchange");
+}
+
+void higherLevelStrikesFirst() {
+    int s[] = {10};
+    int p[] = {10};
+    Arena arena;
+    arena += new Warrior("Slow", 200, 2, s, 1);
+    arena += new Mage("Quick", 200, 9, p, 1);
+
+    Character::seedCombat(5);
+    std::ostringstream out;
+    arena.fight(0, 1, out);
+    const std::string log = out.str();
+    check(log.find("Quick hits Slow") < log.find("Slow hits Quick"),
+          "the higher-level combatant lands the first blow");
+}
+
 } // namespace
 
 int main() {
@@ -133,6 +245,16 @@ int main() {
     malformedRosterLineIsSkipped();
     equalityConsidersName();
     arenaOwnsAndFreesRoster();
+
+    levelAffectsDamage();
+    defenceReducesDamageTaken();
+    damageNeverDropsBelowOne();
+    healthClampsAtZero();
+    healingCannotExceedStartingHealth();
+    deadCombatantsDoNotSwing();
+    plusEqualsMeansSkillOnConcreteTypes();
+    sameSeedReplaysTheSameFight();
+    higherLevelStrikesFirst();
 
     std::cout << (g_failures == 0 ? "\nall passed\n"
                                   : "\n" + std::to_string(g_failures) + " failed\n");

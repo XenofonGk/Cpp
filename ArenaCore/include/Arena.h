@@ -23,6 +23,15 @@
         void load(const char* filename);
         void save(const char* filename) const;
         void display(std::ostream& os = std::cout) const;
+
+        /* One exchange between two roster members: the faster acts first, the
+           survivor strikes back if still standing. Returns the index of the
+           winner, or -1 while both are alive.
+
+           Turn order is by level, so a levelling decision changes who lands the
+           first blow — the only place in this project where a player choice
+           alters an outcome. */
+        int fight(int indexA, int indexB, std::ostream& os = std::cout);
         
         };
         std::ostream& operator<<(std::ostream& os, const Character& c);
