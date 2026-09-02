@@ -6,3 +6,8 @@ build/
 
 # macOS
 .DS_Store
+
+# compiled output
+a.out
+*.o
+*.dSYM/
