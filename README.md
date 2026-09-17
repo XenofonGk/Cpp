@@ -28,7 +28,7 @@ cd RestaurantOrderingSystem && g++ *.cpp -o RestaurantOrderingSystem && ./Restau
 cd MarketPlus && g++ *.cpp -o marketplus && ./marketplus
 ```
 
-**[CreditCard](CreditCard)** — validates card numbers and manages credit limits.
+**[CreditCard](CreditCard)** — validates and formats credit card records, rejecting malformed ones instead of displaying them.
 ```bash
 cd CreditCard && g++ *.cpp -o creditcard && ./creditcard
 ```
