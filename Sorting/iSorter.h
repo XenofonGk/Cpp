@@ -3,6 +3,7 @@
 
 class iSorter {
 public:
+    virtual ~iSorter() = default;
     virtual void sort(float*, int) = 0;
     virtual const char* name() const = 0;
 };

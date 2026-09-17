@@ -11,3 +11,12 @@ build/
 a.out
 *.o
 *.dSYM/
+
+# project binaries (extensionless, built per-project READMEs)
+/Ikariam/src/ikariam
+/Sorting/sorting
+/RestaurantOrderingSystem/RestaurantOrderingSystem
+/MarketPlus/marketplus
+/MarketPlus/shop
+/CreditCard/creditcard
+/LexiStore_Engine/lexistore

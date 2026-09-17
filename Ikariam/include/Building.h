@@ -14,7 +14,7 @@ class Building {
     // Rule Of Three
     Building(const Building& src); // Deep copy the name
     Building& operator=(const Building& src); // Clean up old memory, check for self-assignment,then deep copy
-    ~Building(); // Clean up the heap 
+    virtual ~Building(); // Clean up the heap
 
     // Polymorphism
     virtual void print(std::ostream& os) const = 0;
