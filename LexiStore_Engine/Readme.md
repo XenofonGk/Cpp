@@ -1,23 +1,22 @@
-#LexiStore Engine 🚀
+# LexiStore Engine
 
-A high-performance, memory-managed Key-Value database engine built from scratch in C++. 
+A key-value store written from scratch in C++, without `std::string`, `std::vector`, or any other STL container.
 
-## 🛠 Technical Highlights
-This project demonstrates advanced C++ concepts required for system-level programming and acing Object-Oriented Programming exams:
-    
-- **Manual Memory Management:** Uses raw pointers and `new[]`/`delete[]` to manage dynamic strings and arrays.
-- **The Rule of Three:** Implements custom Destructors, Copy Constructors, and Copy Assignment Operators for all resource-owning classes.
-- **Resizing Logic:** A custom `operator+=` that handles dynamic array reallocation (The "Resizing Pattern").
-- **Composition Architecture:** A `KVStore` container that manages a collection of `Entry` objects.
-- **Robust Input Validation:** Prevents program crashes by sanitizing standard input streams.
+## Design
 
-## 📂 Project Structure
-- `Entry`: Handles individual Key-Value pairs with deep-copy string logic.
-- `KVStore`: The database controller managing a dynamic collection of Entries.
-- `Utils`: Helper functions for safe user interaction.
+- `Entry` holds one key-value pair, with its own deep-copy logic for the strings it owns.
+- `KVStore` manages a dynamic collection of `Entry` objects, including a custom `operator+=` that reallocates and grows the backing array as entries are added.
+- `Utils` holds shared input-sanitizing helpers so bad input doesn't crash the program.
+- Every resource-owning class implements the Rule of Three (destructor, copy constructor, copy assignment) by hand.
 
-## 🚀 Why this exists
-20 This engine was built to master the "under-the-hood" mechanics of C++, specifically focusing on deep copying vs shallow copying and the management of
-dynamic memory arrays without using standard library containers like `std::string` or `std::vector`.
+## Why
 
----
+Built to work through deep-copy vs. shallow-copy bugs and manual array growth directly, instead of relying on containers that handle it for you.
+
+## Build and run
+
+```bash
+cd LexiStore_Engine
+g++ *.cpp -o lexistore
+./lexistore
+```

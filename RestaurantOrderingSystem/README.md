@@ -1,62 +1,31 @@
-# C++ Restaurant Ordering System
+# Restaurant Ordering System
 
-A modular and extensible C++ application designed for managing restaurant menus, customer orders, and automated bill generation. This project showcases Object-Oriented Programming (OOP) principles, including inheritance, polymorphism, and file I/O.
+A command-line restaurant ordering app in C++: browse a menu loaded from CSV, build a bill, and get a total with tax.
 
-## 🚀 Features
+## Design
 
-- **Hierarchical Menu Management:** A flexible interactive CLI menu system for easy navigation.
-- **Food & Drink Specialization:** Distinct classes for food and drinks, supporting item-specific features (e.g., sizes for drinks, customizations for food).
-- **Automated Bill Calculation:** Dynamically tracks ordered items and calculates taxes and totals with high precision.
-- **Data Persistence:** Seamlessly loads menu items from CSV data files.
-- **Robust Input Validation:** Ensures a smooth user experience with comprehensive input handling.
+- `Billable` is an abstract base class — anything that can go on a bill implements it.
+- `Food` and `Drink` extend `Billable` with their own attributes (sizes for drinks, customizations for food).
+- `Menu` and `MenuItem` drive the interactive CLI, built to nest menus without duplicating navigation code.
+- `Ordering` is the entry point that ties loading, menu display, and billing together.
+- `Utils` holds shared string and input-handling helpers.
 
-## 🏗️ Architecture
-
-The system is built on a solid OOP foundation with the following core components:
-
-- **`Billable` (Abstract Base Class):** Defines the common interface for all billable items, ensuring consistent behavior for printing and pricing.
-- **`Food` & `Drink`:** Specialized subclasses that extend `Billable` to handle unique attributes and logic for different menu categories.
-- **`Menu` & `MenuItem`:** Power the interactive user interface, providing a reusable way to create nested command-line menus.
-- **`Ordering`:** The central engine that orchestrates the entire process—from loading data to managing the customer's current bill.
-- **`Utils`:** A collection of helper functions for string manipulation and input handling.
-
-## 🛠️ Getting Started
-
-### Prerequisites
-
-- A C++ compiler (e.g., `g++`, `clang++`)
-- Standard C++ Library
-
-### Compilation
-
-Clone the repository and compile the source files using your preferred compiler:
+## Build and run
 
 ```bash
-g++ *.cpp -o restaurant_system
+cd RestaurantOrderingSystem
+g++ *.cpp -o RestaurantOrderingSystem
+./RestaurantOrderingSystem
 ```
 
-### Usage
+It reads menu items from `drinks.csv` and `foods.csv` in the same directory, then presents the ordering menu.
 
-Run the executable to start the application:
+## Files
 
-```bash
-./restaurant_system
-```
-
-The system will load data from `drinks.csv` and `foods.csv` and present the main menu for ordering.
-
-## 📂 Project Structure
-
-- `Billable.h/cpp`: Base class for orderable items.
-- `Food.h/cpp`: Specialized class for food products.
-- `Drink.h/cpp`: Specialized class for beverages.
-- `Ordering.h/cpp`: Main logic for the ordering system.
-- `Menu.h/cpp`: CLI menu implementation.
-- `Utils.h/cpp`: Utility and helper functions.
-- `constants.h`: Global project constants.
-- `main.cpp`: Application entry point.
-- `*.csv`: Sample data files for menu items.
-
-## 📄 License
-
-This project is open-source and available for educational purposes.
+- `Billable.h/cpp` — base class for anything orderable
+- `Food.h/cpp`, `Drink.h/cpp` — concrete menu item types
+- `Ordering.h/cpp` — order and billing logic
+- `Menu.h/cpp` — CLI menu system
+- `Utils.h/cpp` — helpers
+- `constants.h` — shared constants
+- `*.csv` — sample menu data
